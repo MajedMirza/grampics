@@ -1,0 +1,31 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [NC,L] 
+
+# #For removing extension as Options +Multiviews not working with RewriteRule 
+RewriteCond %{THE_REQUEST} \s/index\.php\?id=([_0-9a-zA-Z-]+)\s [NC]
+RewriteRule ^%1? [R=301,L]
+RewriteRule ^([_0-9a-zA-Z-]+)$ /profile.php?id=$1 [L]
+
+RewriteCond %{THE_REQUEST} \s/index\.php\?id=([_0-9a-zA-Z-]+)\s [NC]
+RewriteRule ^ %1.html? [R=301,L]
+RewriteRule ^([_0-9a-zA-Z-]+?)(?:\.html)?$ /profile.php?id=$1 [NC,L]
+
+
+ErrorDocument 404 /Grampics/404.php
+
+#DirectoryIndex Options +Indexes
+
+<FilesMatch ".(htaccess)">
+    Require all granted 
+    Require all denied
+</FilesMatch>
+
+#Options +Multiviews
+
+IndexIgnore *
